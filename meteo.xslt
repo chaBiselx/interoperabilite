@@ -12,7 +12,6 @@
   		<p>Pluie = <xsl:value-of select="echeance/pluie/."/></p>
   		<p>Vent Moyen= <xsl:value-of select="echeance/vent_moyen/."/></p>
   		<p>Nebulosite= <xsl:value-of select="echeance/nebulosite/."/></p>
-  		<xsl:apply-templates/>
   	</xsl:if>
   	
   </xsl:template>
