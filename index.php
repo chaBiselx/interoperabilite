@@ -1,4 +1,6 @@
 <?php
+$opts = array('http' => array('proxy'=> 'tcp://127.0.0.1:8080', 'request_fulluri'=> true));
+$context = stream_context_create($opts);
 //ip client
 //$IP = $_SERVER['REMOTE_ADDR'];
 $IP = "193.50.135.197";
