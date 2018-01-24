@@ -1,0 +1,14 @@
+#mapid{
+  margin: 10%;
+  width: 80%;
+  height: 400px;
+}
+
+header{
+  background-color: violet;
+}
+
+footer{
+  color: white;
+  background-color: black;
+}
