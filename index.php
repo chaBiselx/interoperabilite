@@ -15,32 +15,31 @@ if (gethostname() === "webetu.iutnc.univ-lorraine.fr") {
 $IP = $_SERVER['REMOTE_ADDR'];
 // $IP = "193.50.135.197";
 
-echo getPosition();
-echo getVeloStan();
-echo getMeteo();
+$positionXml = getXml("https://freegeoip.net/xml/".$IP);
+$lat = $positionXml->Latitude;
+$long = $positionXml->Longitude;
+// var_dump($positionXml);
 
-function getFile($url) {
+$meteoXml = getXml("http://www.infoclimat.fr/public-api/gfs/xml?_ll=" . $lat . "," . $lng . "&_auth=ARsDFFIsBCZRfFtsD3lSe1Q8ADUPeVRzBHgFZgtuAH1UMQNgUTNcPlU5VClSfVZkUn8AYVxmVW0Eb1I2WylSLgFgA25SNwRuUT1bPw83UnlUeAB9DzFUcwR4BWMLYwBhVCkDb1EzXCBVOFQoUmNWZlJnAH9cfFVsBGRSPVs1UjEBZwNkUjIEYVE6WyYPIFJjVGUAZg9mVD4EbwVhCzMAMFQzA2JRMlw5VThUKFJiVmtSZQBpXGtVbwRlUjVbKVIuARsDFFIsBCZRfFtsD3lSe1QyAD4PZA%3D%3D&_c=19f3aa7d766b6ba91191c8be71dd1ab2");
+
+// var_dump($meteoXml);
+
+function getXml($url) {
   $file = file_get_contents($url);
+  echo $file;
   if ($file === false) {
-    // TODO error
+    // TODO erreur reseau
     return false;
   } else {
-    return $file;
+    $xml = simplexml_load_string($file);
+    if ($xml === false) {
+      // TODO erreur xml
+      return false;
+    }
+    else {
+      return $xml;
+    }
   }
-}
-
-function getPosition(){
-  $postionXml = getFile( "https://freegeoip.net/xml/".$IP);
-  return $postionXml;
-}
-
-function getVeloStan(){
-  $veloStanXml = getFile( "http://www.velostanlib.fr/service/carto");
-  return $veloStanXml;
-}
-
-function getMeteo(){
-  $meteoXml = getFile( "http://www.infoclimat.fr/public-api/gfs/xml?_ll=48.67103,6.15083&_auth=ARsDFFIsBCZRfFtsD3lSe1Q8ADUPeVRzBHgFZgtuAH1UMQNgUTNcPlU5VClSfVZkUn8AYVxmVW0Eb1I2WylSLgFgA25SNwRuUT1bPw83UnlUeAB9DzFUcwR4BWMLYwBhVCkDb1EzXCBVOFQoUmNWZlJnAH9cfFVsBGRSPVs1UjEBZwNkUjIEYVE6WyYPIFJjVGUAZg9mVD4EbwVhCzMAMFQzA2JRMlw5VThUKFJiVmtSZQBpXGtVbwRlUjVbKVIuARsDFFIsBCZRfFtsD3lSe1QyAD4PZA%3D%3D&_c=19f3aa7d766b6ba91191c8be71dd1ab2");
 }
 
 ?>
