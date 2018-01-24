@@ -1,39 +1,46 @@
 <?php
-$opts = array('http' => array('proxy'=> 'tcp://127.0.0.1:8080', 'request_fulluri'=> true));
-$context = stream_context_create($opts);
+
+if (gethostname() === "webetu.iutnc.univ-lorraine.fr") {
+  stream_context_set_default(
+   array(
+    'http' => array(
+     'proxy' => "tcp://www-cache:3128",
+     'request_fulluri' => true
+    )
+   )
+  );
+}
+
 //ip client
-//$IP = $_SERVER['REMOTE_ADDR'];
-$IP = "193.50.135.197";
+$IP = $_SERVER['REMOTE_ADDR'];
+// $IP = "193.50.135.197";
 
 echo getPosition();
 echo getVeloStan();
 echo getMeteo();
 
-function getPosition(){
-  $xml = file_get_contents( "https://freegeoip.net/xml/".$IP) ;
-  if(empty($xml)){
-    return errorPos; //en cas d'erreur
-  }else{
-    return $xml;
+function getFile($url) {
+  $file = file_get_contents($url);
+  if ($file === false) {
+    // TODO error
+    return false;
+  } else {
+    return $file;
   }
+}
+
+function getPosition(){
+  $postionXml = getFile( "https://freegeoip.net/xml/".$IP);
+  return $postionXml;
 }
 
 function getVeloStan(){
-  $veloStan = file_get_contents( "http://www.velostanlib.fr/service/carto") ;
-  if(empty($veloStan)){
-    return errorStan; //en cas d'erreur
-  }else{
-    return $veloStan;
-  }
+  $veloStanXml = getFile( "http://www.velostanlib.fr/service/carto");
+  return $veloStanXml;
 }
 
 function getMeteo(){
-  $veloStan = file_get_contents( "http://www.infoclimat.fr/public-api/gfs/xml?_ll=48.67103,6.15083&_auth=ARsDFFIsBCZRfFtsD3lSe1Q8ADUPeVRzBHgFZgtuAH1UMQNgUTNcPlU5VClSfVZkUn8AYVxmVW0Eb1I2WylSLgFgA25SNwRuUT1bPw83UnlUeAB9DzFUcwR4BWMLYwBhVCkDb1EzXCBVOFQoUmNWZlJnAH9cfFVsBGRSPVs1UjEBZwNkUjIEYVE6WyYPIFJjVGUAZg9mVD4EbwVhCzMAMFQzA2JRMlw5VThUKFJiVmtSZQBpXGtVbwRlUjVbKVIuARsDFFIsBCZRfFtsD3lSe1QyAD4PZA%3D%3D&_c=19f3aa7d766b6ba91191c8be71dd1ab2") ;
-  if(empty($veloStan)){
-    return errorMeteo; //en cas d'erreur
-  }else{
-    return $veloStan;
-  }
+  $meteoXml = getFile( "http://www.infoclimat.fr/public-api/gfs/xml?_ll=48.67103,6.15083&_auth=ARsDFFIsBCZRfFtsD3lSe1Q8ADUPeVRzBHgFZgtuAH1UMQNgUTNcPlU5VClSfVZkUn8AYVxmVW0Eb1I2WylSLgFgA25SNwRuUT1bPw83UnlUeAB9DzFUcwR4BWMLYwBhVCkDb1EzXCBVOFQoUmNWZlJnAH9cfFVsBGRSPVs1UjEBZwNkUjIEYVE6WyYPIFJjVGUAZg9mVD4EbwVhCzMAMFQzA2JRMlw5VThUKFJiVmtSZQBpXGtVbwRlUjVbKVIuARsDFFIsBCZRfFtsD3lSe1QyAD4PZA%3D%3D&_c=19f3aa7d766b6ba91191c8be71dd1ab2");
 }
 
 ?>
