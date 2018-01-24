@@ -4,10 +4,17 @@
 
   <xsl:output method="html" encoding="ISO-8859-1" indent="yes"/>
 
-  <xsl:template match="echeance">
-  	<p>Température = <xsl:value-of select="temperature/."/></p>
-  	<p>Pression = <xsl:value-of select="pression/."/></p>
-  	<p>Humidite = <xsl:value-of select="humidite/."/></p>
+  <xsl:template match="previsions">
+  	<xsl:if test="position() = last()" >
+  		<p>Temperature = <xsl:value-of select="echeance/temperature/."/></p>
+  		<p>Pression = <xsl:value-of select="echeance/pression/."/></p>
+  		<p>Humidite = <xsl:value-of select="echeance/humidite/."/></p>
+  		<p>Pluie = <xsl:value-of select="echeance/pluie/."/></p>
+  		<p>Vent Moyen= <xsl:value-of select="echeance/vent_moyen/."/></p>
+  		<p>Nebulosite= <xsl:value-of select="echeance/nebulosite/."/></p>
+  		<xsl:apply-templates/>
+  	</xsl:if>
+  	
   </xsl:template>
 
 </xsl:stylesheet>
