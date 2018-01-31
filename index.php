@@ -31,7 +31,7 @@ $meteoXml = getXml("http://www.infoclimat.fr/public-api/gfs/xml?_ll=" . $lat . "
 // var_dump($meteoXml);
 
 //apply xslt template
-$xslt->transformToXML( $meteoXml );
+echo $xslt->transformToXML( $meteoXml );
 
 function getXml($url) {
   $file = file_get_contents($url);
