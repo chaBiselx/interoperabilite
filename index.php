@@ -61,7 +61,7 @@ function getXml($url) {
 <html>
 
 <head>
-  <title>Evolution température</title>
+  <title>Évolution température et velostanlib</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
   <script src="node_modules/chart.js/dist/Chart.js"></script>
   <script src="node_modules/chart.js/samples/utils.js"></script>
@@ -90,7 +90,8 @@ function getXml($url) {
 	function init() {
 
   // initialize the map
-  var map = L.map('mapid').setView([<?php echo $lat ?> , <?php echo $long ?>], 13);
+  // var map = L.map('mapid').setView([<?php echo $lat ?> , <?php echo $long ?>], 13);
+  var map = L.map('mapid').setView([48.6880796,6.1559274], 13);
 
   // load a tile layer
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -99,7 +100,14 @@ function getXml($url) {
       minZoom: 9
     }).addTo(map);
 
-  var marker = L.marker([ <?php echo $lat ?> , <?php echo $long ?> ]).addTo(map);
+  var markerLocationIP = L.marker([ <?php echo $lat ?> , <?php echo $long ?> ]).addTo(map);
+  var velostanlib = <?php echo $velostanlibJSON; ?>;
+  for (var i = 0; i < velostanlib.markers.marker.length; i++) {
+    let marker = velostanlib.markers.marker[i]['@attributes'];
+    let popup = marker.name + '<br>' + marker.fullAddress + '<br>' + (marker.open == 1 ? 'Ouvert' : 'Fermé');
+    let m = L.marker([marker.lat, marker.lng]).addTo(map);
+    m.bindPopup(popup);
+  }
 
 //==========================================================================================================
 //afficher la liste des markers
@@ -114,6 +122,11 @@ function getXml($url) {
 <body>
   <div style="width:75%;">
     <canvas id="canvas"></canvas>
+  </div>
+  <div class="content">
+    <div id="mapid"></div>
+    <script type="text/javascript">  init();
+    </script>
   </div>
   <?php
     //apply xslt template
@@ -199,16 +212,10 @@ function getXml($url) {
   window.onload = function() {
     var ctx = document.getElementById("canvas").getContext("2d");
     window.myLine = new Chart(ctx, config);
-
   };
 
 
   </script>
-  <div class="content">
-    <div id="mapid"></div>
-    <script type="text/javascript">  init();
-    </script>
-  </div>
   <footer>
     Site créé par BISELX Charles, ESCAMILLA Valentin, PENGUILLY Bertrand
   </footer>
