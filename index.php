@@ -12,12 +12,12 @@ if (gethostname() === "webetu.iutnc.univ-lorraine.fr") {
 }
 
 //ip client
-//$IP = $_SERVER['REMOTE_ADDR'];
- $IP = "193.50.135.197";
+$IP = $_SERVER['REMOTE_ADDR'];
+ // $IP = "193.50.135.197";
 
 $positionXml = getXml("https://freegeoip.net/xml/".$IP);
 $lat = floatval( $positionXml->Latitude );
-$long = -71.08;//$positionXml->Longitude;
+$long = $positionXml->Longitude;
 // var_dump($positionXml);
 
 //XSLTprocessor
@@ -67,7 +67,7 @@ function getXml($url) {
   <script src="node_modules/chart.js/samples/utils.js"></script>
   <meta charset="utf-8">
   <link rel="stylesheet" href="css/main.css"/>
- 
+
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
     integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
@@ -85,7 +85,7 @@ function getXml($url) {
     -ms-user-select: none;
   }
   </style>
-	
+
 <script type="text/javascript">
 	function init() {
   //var lat = 42.35;
@@ -94,14 +94,13 @@ function getXml($url) {
   var map = L.map('mapid').setView([<?php echo $lat ?> , <?php echo $long ;?>], 13);
 
   // load a tile layer
-  L.tileLayer('http://tiles.mapc.org/basemap/{z}/{x}/{y}.png',
+  L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
     {
-      attribution: 'Tiles by <a href="http://mapc.org">MAPC</a>, Data by <a href="http://mass.gov/mgis">MassGIS</a>',
       maxZoom: 17,
       minZoom: 9
     }).addTo(map);
 }
-</script> 
+</script>
 
 
 </head>
