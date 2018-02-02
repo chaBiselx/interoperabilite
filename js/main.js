@@ -1,6 +1,8 @@
-function init() {
+function init(lat , lng) {
+  //var lat = 42.35;
+  //var lng = -71.08
   // initialize the map
-  var map = L.map('mapid').setView([42.35, -71.08], 13);
+  var map = L.map('mapid').setView([lat, lng], 13);
 
   // load a tile layer
   L.tileLayer('http://tiles.mapc.org/basemap/{z}/{x}/{y}.png',

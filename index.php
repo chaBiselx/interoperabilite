@@ -12,12 +12,12 @@ if (gethostname() === "webetu.iutnc.univ-lorraine.fr") {
 }
 
 //ip client
-$IP = $_SERVER['REMOTE_ADDR'];
-// $IP = "193.50.135.197";
+//$IP = $_SERVER['REMOTE_ADDR'];
+ $IP = "193.50.135.197";
 
 $positionXml = getXml("https://freegeoip.net/xml/".$IP);
-$lat = $positionXml->Latitude;
-$long = $positionXml->Longitude;
+$lat = floatval( $positionXml->Latitude );
+$long = -71.08;//$positionXml->Longitude;
 // var_dump($positionXml);
 
 //XSLTprocessor
@@ -65,6 +65,19 @@ function getXml($url) {
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.13.0/moment.min.js"></script>
   <script src="node_modules/chart.js/dist/Chart.js"></script>
   <script src="node_modules/chart.js/samples/utils.js"></script>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="css/main.css"/>
+ 
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.1/dist/leaflet.css"
+    integrity="sha512-Rksm5RenBEKSKFjgI3a41vrjkw4EVPlJ3+OiI65vTjIdo9brlAacEuKOiQ5OFh7cOI1bkDwLqdLw3Zg0cRJAAQ=="
+    crossorigin=""
+  />
+  <!-- Make sure you put this AFTER Leaflet's CSS -->
+  <script src="https://unpkg.com/leaflet@1.3.1/dist/leaflet.js"
+    integrity="sha512-/Nsx9X4HebavoBvEBuyp3I7od5tA0UzAxs+j83KgC8PU0kgB4XiK4Lfe4y4cgBtaRJQEIFCW+oC506aPT2L1zw=="
+    crossorigin="">
+  </script>
   <style>
   canvas {
     -moz-user-select: none;
@@ -72,6 +85,25 @@ function getXml($url) {
     -ms-user-select: none;
   }
   </style>
+	
+<script type="text/javascript">
+	function init() {
+  //var lat = 42.35;
+  //var lng = -71.08
+  // initialize the map
+  var map = L.map('mapid').setView([<?php echo $lat ?> , <?php echo $long ;?>], 13);
+
+  // load a tile layer
+  L.tileLayer('http://tiles.mapc.org/basemap/{z}/{x}/{y}.png',
+    {
+      attribution: 'Tiles by <a href="http://mapc.org">MAPC</a>, Data by <a href="http://mass.gov/mgis">MassGIS</a>',
+      maxZoom: 17,
+      minZoom: 9
+    }).addTo(map);
+}
+</script> 
+
+
 </head>
 
 <body>
@@ -167,6 +199,12 @@ function getXml($url) {
 
 
   </script>
+  <div class="content">
+    <div id="mapid"></div>
+    <script type="text/javascript">  init(); </script> <?php echo $lat ?> , <?php echo $long ;?>
+  </div>
+  <footer>
+    Site créé par BISELX Charles, ESCAMILLA Valentin, PENGUILLY Bertrand
+  </footer>
 </body>
-
 </html>
