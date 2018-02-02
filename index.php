@@ -12,11 +12,14 @@ if (gethostname() === "webetu.iutnc.univ-lorraine.fr") {
 }
 
 //ip client
-$IP = $_SERVER['REMOTE_ADDR'];
- // $IP = "193.50.135.197";
+//$IP = $_SERVER['REMOTE_ADDR'];
+$IP = "193.50.135.197";
+
+
+$velostanlib = getXml("http://www.velostanlib.fr/service/carto");
 
 $positionXml = getXml("https://freegeoip.net/xml/".$IP);
-$lat = floatval( $positionXml->Latitude );
+$lat =  $positionXml->Latitude ;
 $long = $positionXml->Longitude;
 // var_dump($positionXml);
 
@@ -88,10 +91,9 @@ function getXml($url) {
 
 <script type="text/javascript">
 	function init() {
-  //var lat = 42.35;
-  //var lng = -71.08
+
   // initialize the map
-  var map = L.map('mapid').setView([<?php echo $lat ?> , <?php echo $long ;?>], 13);
+  var map = L.map('mapid').setView([<?php echo $lat ?> , <?php echo $long ?>], 13);
 
   // load a tile layer
   L.tileLayer('http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
@@ -99,6 +101,11 @@ function getXml($url) {
       maxZoom: 17,
       minZoom: 9
     }).addTo(map);
+
+  var marker = L.marker([ <?php echo $lat ?> , <?php echo $long ?> ]).addTo(map);
+
+
+
 }
 </script>
 
@@ -200,7 +207,7 @@ function getXml($url) {
   </script>
   <div class="content">
     <div id="mapid"></div>
-    <script type="text/javascript">  init(); </script> <?php echo $lat ?> , <?php echo $long ;?>
+    <script type="text/javascript">  init();
   </div>
   <footer>
     Site créé par BISELX Charles, ESCAMILLA Valentin, PENGUILLY Bertrand
