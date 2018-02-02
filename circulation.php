@@ -47,6 +47,7 @@ if ($events == null) {
     <?php
     // code js generé avec php, pas très propre, le plus simple est de passer
     // les données en json au client et de les traiter directement en JS
+    // comme ca a été fait dans le projet météo et velo stan
     // mais je sais pas si ca irait pour le sujet vu que l'on utiliserait pas
     // json_decode
       foreach ($events as $idx => $event) {
