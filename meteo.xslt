@@ -20,11 +20,11 @@
   <xsl:template match="echeance">
       <tr>
         <td> <xsl:value-of select="@timestamp"/> </td>
-        <td> <xsl:value-of select="temperature/level/. - 273.15"/> degre Celsius</td>
-        <td> <xsl:value-of select="pression/."/></td>
-        <td> <xsl:value-of select="humidite/."/></td>
-        <td> <xsl:value-of select="pluie/."/></td>
-        <td> <xsl:value-of select="vent_moyen/."/></td>
+        <td> <xsl:value-of select="round((temperature/level/. - 273) * 10) div 10"/>°C</td>
+        <td> <xsl:value-of select="pression/."/>Pa</td>
+        <td> <xsl:value-of select="humidite/."/>%</td>
+        <td> <xsl:value-of select="pluie/."/>mm</td>
+        <td> <xsl:value-of select="vent_moyen/."/>km/h</td>
       </tr>
   </xsl:template>
 
