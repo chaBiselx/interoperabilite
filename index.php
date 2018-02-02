@@ -14,11 +14,14 @@ if (gethostname() === "webetu.iutnc.univ-lorraine.fr") {
 }
 
 //ip client
-//$IP = $_SERVER['REMOTE_ADDR'];
-$IP = "193.50.135.197";
+$IP = $_SERVER['REMOTE_ADDR'];
+//$IP = "193.50.135.197";
 
 
-$velostanlib = getXml("http://www.velostanlib.fr/service/carto");
+$velostanlibxml = getXml("http://www.velostanlib.fr/service/carto");
+$velostanlibJSON = json_encode( $velostanlibxml );
+$listMarker = $velostanlibxml;
+
 
 $positionXml = getXml("https://freegeoip.net/xml/".$IP);
 $lat =  $positionXml->Latitude ;
@@ -98,7 +101,9 @@ function getXml($url) {
 
   var marker = L.marker([ <?php echo $lat ?> , <?php echo $long ?> ]).addTo(map);
 
-
+//==========================================================================================================
+//afficher la liste des markers
+  console.log(<?php echo $listMarker ?>);
 
 }
 </script>
@@ -202,6 +207,7 @@ function getXml($url) {
   <div class="content">
     <div id="mapid"></div>
     <script type="text/javascript">  init();
+    </script>
   </div>
   <footer>
     Site créé par BISELX Charles, ESCAMILLA Valentin, PENGUILLY Bertrand
