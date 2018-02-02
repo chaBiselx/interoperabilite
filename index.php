@@ -14,8 +14,8 @@ if (gethostname() === "webetu.iutnc.univ-lorraine.fr") {
 }
 
 //ip client
-$IP = $_SERVER['REMOTE_ADDR'];
-//$IP = "193.50.135.197";
+// $IP = $_SERVER['REMOTE_ADDR'];
+$IP = "193.50.135.197";
 
 
 $velostanlibxml = getXml("http://www.velostanlib.fr/service/carto");
@@ -101,6 +101,7 @@ function getXml($url) {
     }).addTo(map);
 
   var markerLocationIP = L.marker([ <?php echo $lat ?> , <?php echo $long ?> ]).addTo(map);
+  markerLocationIP.bindPopup('Vous êtes localisé ici');
   var velostanlib = <?php echo $velostanlibJSON; ?>;
   for (var i = 0; i < velostanlib.markers.marker.length; i++) {
     let marker = velostanlib.markers.marker[i]['@attributes'];
