@@ -1,5 +1,7 @@
 <?php
 
+set_error_handler(function() {});
+
 if (gethostname() === "webetu.iutnc.univ-lorraine.fr") {
   stream_context_set_default(
     array(
@@ -21,7 +23,6 @@ $velostanlib = getXml("http://www.velostanlib.fr/service/carto");
 $positionXml = getXml("https://freegeoip.net/xml/".$IP);
 $lat =  $positionXml->Latitude ;
 $long = $positionXml->Longitude;
-// var_dump($positionXml);
 
 //XSLTprocessor
 $xslt = new XSLTProcessor();
@@ -33,30 +34,23 @@ $meteoXml = getXml("http://www.infoclimat.fr/public-api/gfs/xml?_ll=" . $lat . "
 
 $meteoJSON = json_encode($meteoXml);
 
-// var_dump($meteoXml);
-foreach ($meteoXml->echeance as $key => $echeance) {
-  // var_dump($echeance);
-  // foreach ($echeance->temperature as $key => $value) {
-  //   var_dump($value);
-  // }
-}
 
 function getXml($url) {
   $file = file_get_contents($url);
-  // echo $file;
+  // echo htmlspecialchars($file);
   if ($file === false) {
-    // TODO erreur reseau
-    return false;
-  } else {
-    $xml = simplexml_load_string($file);
-    if ($xml === false) {
-      // TODO erreur xml
-      return false;
-    }
-    else {
-      return $xml;
-    }
+    echo 'Erreur telechargement XML depuis API';
+    exit();
   }
+  $xml = simplexml_load_string($file);
+  if ($xml === false) {
+    echo 'Erreur traitement du fichier XML';
+    exit();
+  }
+  if ($xml->request_state >= 400) {
+    echo "L'API a renvoyé une erreur " . $xml->request_state;
+  }
+  return $xml;
 }
 
 ?>
