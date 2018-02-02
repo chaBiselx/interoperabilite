@@ -1,4 +1,5 @@
 <?php
+set_error_handler(function() {});
 
 if (gethostname() === "webetu.iutnc.univ-lorraine.fr") {
   stream_context_set_default(
@@ -13,16 +14,13 @@ if (gethostname() === "webetu.iutnc.univ-lorraine.fr") {
 
 $eventsJSON=file_get_contents('http://api.loire-atlantique.fr/opendata/1.0/traficevents?filter=Tous');
 if ($eventsJSON === false) {
-  // TODO erreur reseau
+  echo 'Erreur telechargement json depuis API';
+  exit();
 }
-else {
-  $events = json_decode($eventsJSON);
-  if ($events == null) {
-    // TODO erreur decodage json
-  }
-  else {
-
-  }
+$events = json_decode($eventsJSON);
+if ($events == null) {
+  echo 'Erreur traitement du fichier json';
+  exit();
 }
 
 ?>
