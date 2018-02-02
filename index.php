@@ -12,8 +12,8 @@ if (gethostname() === "webetu.iutnc.univ-lorraine.fr") {
 }
 
 //ip client
-//$IP = $_SERVER['REMOTE_ADDR'];
-$IP = "193.50.135.197";
+$IP = $_SERVER['REMOTE_ADDR'];
+//$IP = "193.50.135.197";
 
 
 $velostanlibxml = getXml("http://www.velostanlib.fr/service/carto");
